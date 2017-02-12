@@ -1,5 +1,11 @@
 /**
  * @file common.js
+ * @author simpart
+ */
+
+/**
+ * @class event.Common
+ * @brief common event class
  */
 mofron.event.Common = class extends mofron.Event {
     

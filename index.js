@@ -11,9 +11,15 @@ mofron.event.Common = class extends mofron.Event {
     
     constructor (fnc, prm) {
         try {
-            super(fnc,prm);
+            if ('function' === typeof fnc) {
+                super(fnc,prm);
+            } else {
+                super();
+            }
             this.name('Common');
             this.evt_name = null;
+            
+            this.prmOpt(('function' === typeof fnc) ? null : fnc);
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -23,8 +29,10 @@ mofron.event.Common = class extends mofron.Event {
     eventName (nm) {
         try {
             if (undefined === nm) {
+                /* getter */
                 return this.evt_name;
             }
+            /* setter */
             if ('string' !== (typeof nm)) {
                 throw new Error('invalid parameter');
             }
@@ -35,19 +43,18 @@ mofron.event.Common = class extends mofron.Event {
         }
     }
     
-    eventConts () {
+    eventConts (tgt_dom) {
         try {
-            var cbf = this.func;
-            var cbp = this.parm;
-            
-            if ((null      === this.evt_name) ||
-                (undefined === this.target.getRawDom()[this.evt_name])) {
+            if ((null      === this.eventName()) ||
+                (undefined === tgt_dom.getRawDom()[this.eventName()])) {
                 throw new Error('invalid event name');
             }
-            this.target.getRawDom()[this.evt_name] = function () {
+            
+            var evt_func = this.handler();
+            tgt_dom.getRawDom()[this.eventName()] = function () {
                 try {
-                    if (null != cbf) {
-                        cbf(cbp);
+                    if (null != evt_func[0]) {
+                        evt_func[0](evt_func[1]);
                     }
                 } catch (e) {
                     console.error(e.stack);

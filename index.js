@@ -9,17 +9,16 @@
  */
 mofron.event.Common = class extends mofron.Event {
     
-    constructor (fnc, prm) {
+    constructor (po, p2, p3) {
         try {
-            if ('function' === typeof fnc) {
-                super(fnc,prm);
-            } else {
-                super();
-            }
-            this.name('Common');
-            this.evt_name = null;
+            super(po,p2);
             
-            this.prmOpt(('function' === typeof fnc) ? null : fnc);
+            this.name('Common');
+            this.prmOpt(po);
+            
+            if (undefined !== p3) {
+                this.eventName(p3);
+            }
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -29,14 +28,12 @@ mofron.event.Common = class extends mofron.Event {
     eventName (nm) {
         try {
             if (undefined === nm) {
-                /* getter */
-                return this.evt_name;
+                return this.m_evtname;
             }
-            /* setter */
             if ('string' !== (typeof nm)) {
                 throw new Error('invalid parameter');
             }
-            this.evt_name = nm;
+            this.m_evtname = nm;
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -45,12 +42,11 @@ mofron.event.Common = class extends mofron.Event {
     
     eventConts (tgt_dom) {
         try {
+            var evt_func = this.handler();
             if ((null      === this.eventName()) ||
                 (undefined === tgt_dom.getRawDom()[this.eventName()])) {
-                throw new Error('invalid event name');
+                throw new Error('invalid event name : ' + this.eventName());
             }
-            
-            var evt_func = this.handler();
             tgt_dom.getRawDom()[this.eventName()] = function () {
                 try {
                     if (null != evt_func[0]) {
@@ -67,3 +63,4 @@ mofron.event.Common = class extends mofron.Event {
         }
     }
 }
+module.exports = mofron.event.Common;

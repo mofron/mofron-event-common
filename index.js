@@ -11,10 +11,10 @@ mofron.event.Common = class extends mofron.Event {
     
     constructor (po, p2, p3) {
         try {
-            super(po,p2);
+            super();
             
             this.name('Common');
-            this.prmOpt(po);
+            this.prmOpt(po, p2, p3);
             
             if (undefined !== p3) {
                 this.eventName(p3);
@@ -40,18 +40,16 @@ mofron.event.Common = class extends mofron.Event {
         }
     }
     
-    eventConts (tgt_dom) {
+    contents (tgt_dom) {
         try {
             var evt_func = this.handler();
             if ((null      === this.eventName()) ||
                 (undefined === tgt_dom.getRawDom()[this.eventName()])) {
                 throw new Error('invalid event name : ' + this.eventName());
             }
-            tgt_dom.getRawDom()[this.eventName()] = function () {
+            tgt_dom.getRawDom()[this.eventName()] = () => {
                 try {
-                    if (null != evt_func[0]) {
-                        evt_func[0](evt_func[1]);
-                    }
+                    evt_func[0](evt_func[1]);
                 } catch (e) {
                     console.error(e.stack);
                     throw e;
@@ -64,3 +62,4 @@ mofron.event.Common = class extends mofron.Event {
     }
 }
 module.exports = mofron.event.Common;
+/* end of file */

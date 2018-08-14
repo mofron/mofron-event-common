@@ -2,23 +2,19 @@
  * @file common.js
  * @author simpart
  */
-
+const mf = require('mofron');
 /**
  * @class event.Common
  * @brief common event class
  */
-mofron.event.Common = class extends mofron.Event {
+mf.event.Common = class extends mf.Event {
     
-    constructor (po, p2, p3) {
+    constructor (po, p2) {
         try {
             super();
-            
             this.name('Common');
-            this.prmOpt(po, p2, p3);
-            
-            if (undefined !== p3) {
-                this.eventName(p3);
-            }
+            this.prmMap('handler', 'eventName');
+            this.prmOpt(po, p2);
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -42,15 +38,13 @@ mofron.event.Common = class extends mofron.Event {
     
     contents (tgt_dom) {
         try {
-            var evt_func = this.handler();
             if ((null      === this.eventName()) ||
                 (undefined === tgt_dom.getRawDom()[this.eventName()])) {
                 throw new Error('invalid event name : ' + this.eventName());
             }
+            let evt_obj = this;
             tgt_dom.getRawDom()[this.eventName()] = () => {
-                try {
-                    evt_func[0](evt_func[1]);
-                } catch (e) {
+                try { evt_obj.execHandler(); } catch (e) {
                     console.error(e.stack);
                     throw e;
                 }
@@ -61,5 +55,5 @@ mofron.event.Common = class extends mofron.Event {
         }
     }
 }
-module.exports = mofron.event.Common;
+module.exports = mf.event.Common;
 /* end of file */

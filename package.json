@@ -1,6 +1,6 @@
 {
   "name": "mofron-event-common",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "common event for mofron",
   "main": "index.js",
   "scripts": {

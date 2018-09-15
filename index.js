@@ -38,17 +38,17 @@ mf.event.Common = class extends mf.Event {
     
     contents (tgt_dom) {
         try {
-            if ((null      === this.eventName()) ||
-                (undefined === tgt_dom.getRawDom()[this.eventName()])) {
-                throw new Error('invalid event name : ' + this.eventName());
-            }
             let evt_obj = this;
-            tgt_dom.getRawDom()[this.eventName()] = () => {
-                try { evt_obj.execHandler(); } catch (e) {
-                    console.error(e.stack);
-                    throw e;
-                }
-            };
+            tgt_dom.getRawDom().addEventListener(
+                this.eventName(),
+                function () {
+                    try { evt_obj.execHandler(this); } catch (e) {
+                        console.error(e.stack);
+                        throw e;
+                    }
+                },
+                false
+            );
         } catch (e) {
             console.error(e.stack);
             throw e;

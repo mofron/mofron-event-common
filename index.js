@@ -1,19 +1,17 @@
 /**
- * @file common.js
+ * @file mofron-event-common.js
+ * @brief common event for mofron
  * @author simpart
  */
 const mf = require('mofron');
-/**
- * @class event.Common
- * @brief common event class
- */
+
 mf.event.Common = class extends mf.Event {
     
     constructor (po, p2) {
         try {
             super();
-            this.name('Common');
-            this.prmMap('handler', 'eventName');
+            this.name("Common");
+            this.prmMap(["handler", "type"]);
             this.prmOpt(po, p2);
         } catch (e) {
             console.error(e.stack);
@@ -21,16 +19,14 @@ mf.event.Common = class extends mf.Event {
         }
     }
     
-    eventName (nm) {
-        try {
-            if (undefined === nm) {
-                return this.m_evtname;
-            }
-            if ('string' !== (typeof nm)) {
-                throw new Error('invalid parameter');
-            }
-            this.m_evtname = nm;
-        } catch (e) {
+    /**
+     * event type
+     *
+     * @param (string) event type
+     * @return (string) event type
+     */
+    type (prm) {
+        try { return this.member("type", "string", prm); } catch (e) {
             console.error(e.stack);
             throw e;
         }
@@ -40,9 +36,9 @@ mf.event.Common = class extends mf.Event {
         try {
             let evt_obj = this;
             tgt_dom.getRawDom().addEventListener(
-                this.eventName(),
-                function () {
-                    try { evt_obj.execHandler(this); } catch (e) {
+                this.type(),
+                () => {
+                    try { evt_obj.execHandler(evt_obj); } catch (e) {
                         console.error(e.stack);
                         throw e;
                     }

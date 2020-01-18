@@ -2,19 +2,22 @@
  * @file mofron-event-common/index.js
  * @brief common event for mofron
  *        set 'addEventListener' to target dom
+ * ## event function parameter
+ *  - component: event target component object
+ *  - event: event object by addEventListener
+ *  - mixed: user specified parameter
  * @license MIT
  */
 module.exports = class extends mofron.class.Event {
     /**
      * initialize common event
      * 
-     * @param (mixed) handler parameter
+     * @param (mixed) short-form parameter
      *                key-value: event config
-     * @param (string) type parameter
-     * @short handler,type
+     * @short listener,type
      * @type private
      */
-    constructor (p1, p2) {
+    constructor (prm) {
         try {
             super();
             
@@ -22,11 +25,11 @@ module.exports = class extends mofron.class.Event {
             this.confmng().add("type", { type: "string" });
             
 	    this.name("Common");
-            this.shortForm("handler", "type");
+            this.shortForm("listener", "type");
             
 	    /* set config */
-            if (0 < arguments.length) {
-                this.config(p1,p2);
+            if (undefined !== prm) {
+                this.config(prm);
             }
         } catch (e) {
             console.error(e.stack);
@@ -37,7 +40,7 @@ module.exports = class extends mofron.class.Event {
     /**
      * event type
      * 
-     * @param (string) event type (addEventListener parameter)
+     * @param (string) event type
      * @return (string) event type
      * @type parameter
      */
@@ -63,7 +66,7 @@ module.exports = class extends mofron.class.Event {
                 this.type(),
                 () => {
                     try {
-		        evt_obj.execHandler(evt_obj);
+		        evt_obj.execListener(evt_obj);
                     } catch (e) {
                         console.error(e.stack);
                         throw e;

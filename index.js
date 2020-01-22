@@ -1,11 +1,13 @@
 /**
  * @file mofron-event-common/index.js
  * @brief common event for mofron
- *        set 'addEventListener' to target dom
+ *        set addEventListener of target object
+ *        it is possible to use addEventListener() for general by setting the parameter of the type method.
  * ## event function parameter
  *  - component: event target component object
- *  - event: event object by addEventListener
+ *  - mofron-event-common: event instance
  *  - mixed: user specified parameter
+ * @feature it is possible to get event object of addEventListener by 'eventObject' method.
  * @license MIT
  */
 module.exports = class extends mofron.class.Event {
@@ -20,12 +22,12 @@ module.exports = class extends mofron.class.Event {
     constructor (prm) {
         try {
             super();
+            this.name("Common");
+	    this.shortForm("listener", "type");
             
             /* init config */
             this.confmng().add("type", { type: "string" });
-            
-	    this.name("Common");
-            this.shortForm("listener", "type");
+            this.confmng().add("eventObject", { type: "object" });
             
 	    /* set config */
             if (undefined !== prm) {
@@ -64,9 +66,11 @@ module.exports = class extends mofron.class.Event {
             let evt_obj = this;
             tgt_dom.getRawDom().addEventListener(
                 this.type(),
-                () => {
+                (e) => {
                     try {
+		        evt_obj.eventObject(e);
 		        evt_obj.execListener(evt_obj);
+			evt_obj.confmng().delete("eventObject");
                     } catch (e) {
                         console.error(e.stack);
                         throw e;
@@ -75,6 +79,23 @@ module.exports = class extends mofron.class.Event {
                 false
             );
         } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
+    /**
+     * event object setter/getter
+     * 
+     * @param (object) event object by addEventListener
+     *                 undefined: execute as getter
+     * @return (object) event object by addEventListener
+     * @type function
+     */
+    eventObject (prm) {
+        try {
+	    return this.confmng("eventObject", prm);
+	} catch (e) {
             console.error(e.stack);
             throw e;
         }

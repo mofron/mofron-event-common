@@ -3,8 +3,20 @@
 
 common event for mofron
 
-set 'addEventListener' to target dom
+set addEventListener of target object
 
+it is possible to use addEventListener() for general by setting the parameter of the type method.
+
+## event function parameter
+
+- component: event target component object
+
+- mofron-event-common: event instance
+
+- mixed: user specified parameter
+
+## Feature
+ - it is possible to get event object of addEventListener by 'eventObject' method.
 
 # Install
 ```
@@ -32,5 +44,7 @@ npm install mofron mofron-event-common
 
 | Short<br>Form | Parameter Name | Type | Description |
 |:-------------:|:---------------|:-----|:------------|
-| ◯  | type | string | event type (addEventListener parameter) |
+| ◯  | type | string | event type |
+| | eventObject | object | event object by addEventListener |
+| | | | undefined: execute as getter |
 

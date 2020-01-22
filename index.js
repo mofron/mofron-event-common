@@ -5,7 +5,7 @@
  *        it is possible to use addEventListener() for general by setting the parameter of the type method.
  * ## event function parameter
  *  - component: event target component object
- *  - mofron-event-common: event instance
+ *  - mofron-event-common: event module object
  *  - mixed: user specified parameter
  * @feature it is possible to get event object of addEventListener by 'eventObject' method.
  * @license MIT

@@ -11,12 +11,10 @@ it is possible to use addEventListener() for general by setting the parameter of
 
 - component: event target component object
 
-- mofron-event-common: event instance
+- object: event object of addEventListener
 
 - mixed: user specified parameter
 
-## Feature
- - it is possible to get event object of addEventListener by 'eventObject' method.
 
 # Install
 ```
@@ -45,6 +43,4 @@ npm install mofron mofron-event-common
 | Short<br>Form | Parameter Name | Type | Description |
 |:-------------:|:---------------|:-----|:------------|
 | ◯  | type | string | event type |
-| | eventObject | object | event object by addEventListener |
-| | | | undefined: execute as getter |
 

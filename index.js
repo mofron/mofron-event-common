@@ -5,9 +5,8 @@
  *        it is possible to use addEventListener() for general by setting the parameter of the type method.
  * ## event function parameter
  *  - component: event target component object
- *  - mofron-event-common: event module object
+ *  - object: event object of addEventListener
  *  - mixed: user specified parameter
- * @feature it is possible to get event object of addEventListener by 'eventObject' method.
  * @license MIT
  */
 module.exports = class extends mofron.class.Event {
@@ -24,11 +23,8 @@ module.exports = class extends mofron.class.Event {
             super();
             this.name("Common");
 	    this.shortForm("listener", "type");
-            
             /* init config */
             this.confmng().add("type", { type: "string" });
-            this.confmng().add("eventObject", { type: "object" });
-            
 	    /* set config */
             if (undefined !== prm) {
                 this.config(prm);
@@ -68,9 +64,7 @@ module.exports = class extends mofron.class.Event {
                 this.type(),
                 (e) => {
                     try {
-		        evt_obj.eventObject(e);
-		        evt_obj.execListener(evt_obj);
-			evt_obj.confmng().delete("eventObject");
+		        evt_obj.execListener(e);
                     } catch (e) {
                         console.error(e.stack);
                         throw e;
@@ -79,23 +73,6 @@ module.exports = class extends mofron.class.Event {
                 false
             );
         } catch (e) {
-            console.error(e.stack);
-            throw e;
-        }
-    }
-    
-    /**
-     * event object setter/getter
-     * 
-     * @param (object) event object by addEventListener
-     *                 undefined: execute as getter
-     * @return (object) event object by addEventListener
-     * @type function
-     */
-    eventObject (prm) {
-        try {
-	    return this.confmng("eventObject", prm);
-	} catch (e) {
             console.error(e.stack);
             throw e;
         }

@@ -21,7 +21,7 @@ module.exports = class extends mofron.class.Event {
     constructor (prm) {
         try {
             super();
-            this.name("Common");
+            this.modname("Common");
 	    this.shortForm("listener", "type");
             /* init config */
             this.confmng().add("type", { type: "string" });

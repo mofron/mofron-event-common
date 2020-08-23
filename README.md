@@ -23,9 +23,9 @@ npm install mofron mofron-event-common
 
 # Sample
 ```html
-<require>
+<setting>
     <tag load="mofron-event-common">Common</tag>
-</require>
+</setting>
 
 <script name=evt run=init>
     console.log("mouse enter");
